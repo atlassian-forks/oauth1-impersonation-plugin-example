@@ -1,0 +1,10 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${pom.name}" pluginsVersion="2">
+    <plugin-info>
+        <description>${pom.description}</description>
+        <version>${pom.version}</version>
+        <vendor name="${pom.organization.name}" url="${pom.organization.url}" />
+    </plugin-info>
+
+    <rest key="plugin-tutorial-rest" path="plugin-tutorial" version="1" />
+
+</atlassian-plugin>

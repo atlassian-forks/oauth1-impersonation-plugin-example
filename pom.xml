@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.atlassian.plugin</groupId>
+    <artifactId>oauth1-impersonation-plugin-example</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>atlassian-plugin</packaging>
+
+    <name>OAuth 1 with impersonation plugin example</name>
+    <description>Atlassian Data Center Plugin created to present OAuth 1 with impersonation</description>
+
+    <organization>
+        <name>Atlassian</name>
+        <url>https://www.atlassian.com/</url>
+    </organization>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Has to be unique across all plugins -->
+        <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
+        <platform.version>8.0.6</platform.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.atlassian.platform.dependencies</groupId>
+                <artifactId>platform-system-classpath</artifactId>
+                <version>${platform.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.atlassian.platform.dependencies</groupId>
+                <artifactId>platform-public-api</artifactId>
+                <version>${platform.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.atlassian.plugins</groupId>
+            <artifactId>atlassian-plugins-osgi-javaconfig</artifactId>
+            <version>0.6.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.oauth</groupId>
+            <artifactId>atlassian-oauth-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.oauth</groupId>
+            <artifactId>atlassian-oauth-service-provider-spi</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.oauth</groupId>
+            <artifactId>atlassian-oauth-consumer-spi</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.oauth.core</groupId>
+            <artifactId>oauth</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.plugins.rest</groupId>
+            <artifactId>atlassian-rest-v2-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.sal</groupId>
+            <artifactId>sal-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.beehive</groupId>
+            <artifactId>beehive-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.atlassian.maven.plugins</groupId>
+                <artifactId>amps-maven-plugin</artifactId>
+                <version>9.4.1</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <!-- By default, RefApp logs to the standard output -->
+                    <output>${project.build.directory}/refapp.log</output>
+                    <containerId>tomcat10x</containerId>
+                    <instructions>
+                        <Bundle-SymbolicName>${atlassian.plugin.key}</Bundle-SymbolicName>
+                        <Import-Package>*</Import-Package>
+                    </instructions>
+                    <products>
+                        <product>
+                            <id>confluence</id>
+                            <instanceId>confluence</instanceId>
+                            <version>10.0.2</version>
+                            <output>${project.build.directory}/confluence.log</output>
+                            <jvmDebugPort>5021</jvmDebugPort>
+                        </product>
+                        <product>
+                            <id>jira</id>
+                            <instanceId>jira</instanceId>
+                            <version>11.0.0</version>
+                            <output>${project.build.directory}/jira.log</output>
+                            <jvmDebugPort>5031</jvmDebugPort>
+                        </product>
+                    </products>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
